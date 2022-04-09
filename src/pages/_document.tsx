@@ -1,7 +1,24 @@
-import Document from 'next/document';
+import Document, { Main, Head, NextScript, Html } from 'next/document';
 
 export default class MyDocument extends Document {
-  // render() {
-  //   //TODO
-  // }
+  render() {
+    return (
+      <Html>
+        <Head>
+          <title></title>
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap"
+            rel="stylesheet"
+          />
+          <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
+    //TODO
+  }
 }
