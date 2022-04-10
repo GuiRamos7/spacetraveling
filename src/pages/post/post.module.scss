@@ -1,1 +1,49 @@
 // TODO
+.container {
+  header {
+    max-width: 700px;
+    margin: auto;
+    padding: 3.5rem 2rem;
+    box-sizing: border-box;
+  }
+}
+
+.banner {
+  width: 100vw;
+  height: 400px;
+  object-fit: cover;
+}
+
+.content {
+  max-width: 700px;
+  margin: auto;
+  padding: 5rem 0 2rem;
+  h1 {
+    font-size: 3rem;
+  }
+}
+
+.infos {
+  display: flex;
+  margin: 2rem 0 3.5rem;
+
+  time,
+  span {
+    display: block;
+    margin-right: 24px;
+
+    color: var(--pink-200);
+  }
+}
+
+.postContent {
+  h2 {
+    font-size: 2rem;
+    margin: 3rem 0;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 2;
+  }
+}

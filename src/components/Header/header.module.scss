@@ -1,5 +1,8 @@
 .container {
-  padding: 3rem 0;
+  max-width: 700px;
+  margin: auto;
+  padding: 3rem 2rem;
+  box-sizing: border-box;
   img {
     width: 240px;
     cursor: pointer;

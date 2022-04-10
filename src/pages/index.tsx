@@ -6,7 +6,6 @@ import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import Prismic from '@prismicio/client';
 import { FiUser, FiCalendar } from 'react-icons/fi';
-import Header from 'components/Header';
 
 import { getPrismicClient } from '../services/prismic';
 import styles from './home.module.scss';
@@ -74,7 +73,6 @@ export default function Home({ postsPagination }: HomeProps) {
         <title>Space Traveling</title>
       </Head>
       <div className={styles.container}>
-        <Header />
         <div className={styles.posts}></div>
         {posts.map(el => (
           <div key={el.uid} className={styles.post}>
