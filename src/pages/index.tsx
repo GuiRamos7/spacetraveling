@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import Head from 'next/head';
@@ -5,11 +6,10 @@ import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import Prismic from '@prismicio/client';
 import { FiUser, FiCalendar } from 'react-icons/fi';
+import Header from 'components/Header';
 
 import { getPrismicClient } from '../services/prismic';
-
 import styles from './home.module.scss';
-import { useState } from 'react';
 
 interface Post {
   uid?: string;
@@ -74,7 +74,7 @@ export default function Home({ postsPagination }: HomeProps) {
         <title>Space Traveling</title>
       </Head>
       <div className={styles.container}>
-        <img src="/logo.svg" alt="" />
+        <Header />
         <div className={styles.posts}></div>
         {posts.map(el => (
           <div key={el.uid} className={styles.post}>
