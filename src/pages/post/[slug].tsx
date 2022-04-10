@@ -7,7 +7,8 @@ import { RichText } from 'prismic-dom';
 import styles from './post.module.scss';
 import { minutesToHours } from 'date-fns';
 import { formatData } from '../../utils/formatDate';
-
+import { useRouter } from 'next/router';
+import Prismic from '@prismicio/client';
 interface Post {
   first_publication_date: string | null;
   data: {
@@ -31,6 +32,12 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps) {
+  const { isFallback } = useRouter();
+
+  if (isFallback) {
+    return <h1>Carregando...</h1>;
+  }
+
   function calculateReadingTime(content): string {
     const getHeadingWordsPerMinutes = content.reduce((acc, currentValue) => {
       return currentValue.heading.split(/\s+/).length + acc;
@@ -97,27 +104,40 @@ export default function Post({ post }: PostProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const prismic = getPrismicClient();
+  const posts = await prismic.query(
+    [Prismic.predicates.at('document.type', 'post')],
+    {
+      fetch: ['posts.slug'],
+    }
+  );
+
+  const params = posts.results.map(post => ({
+    params: { slug: post.uid },
+  }));
+
   return {
-    paths: [],
-    fallback: 'blocking',
+    paths: params,
+    fallback: true,
   };
 };
 
-export const getStaticProps = async context => {
-  const { params } = context;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { slug } = params;
   const prismic = getPrismicClient();
-  const response = await prismic.getByUID('post', params?.slug, {});
+  const response = await prismic.getByUID('post', String(slug), {});
 
   const post = {
     first_publication_date: response.first_publication_date,
+    uid: response.uid,
     data: {
       title: response.data.title,
       author: response.data.author,
       banner: {
         url: response.data.banner.url,
-        alt: response.data.banner.alt,
       },
-      content: response.data.group.map(item => ({
+      subtitle: response.data.subtitle,
+      content: response.data.content.map(item => ({
         heading: item.heading,
         body: item.body,
       })),
@@ -128,5 +148,6 @@ export const getStaticProps = async context => {
     props: {
       post,
     },
+    revalidate: 60 * 60 * 24,
   };
 };
